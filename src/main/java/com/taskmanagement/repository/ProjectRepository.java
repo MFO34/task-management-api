@@ -17,4 +17,19 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     // User'ın owner olduğu projeler
     List<Project> findByOwnerId(Long ownerId);
+
+    // ========================================
+    // ✨ STATISTICS QUERIES
+    // ========================================
+
+    /**
+     * Count projects owned by user
+     */
+    Long countByOwnerId(Long userId);
+
+    /**
+     * Count projects where user is member
+     */
+    @Query("SELECT COUNT(DISTINCT pm.project) FROM ProjectMember pm WHERE pm.user.id = :userId")
+    Long countProjectsByMemberId(@Param("userId") Long userId);
 }
